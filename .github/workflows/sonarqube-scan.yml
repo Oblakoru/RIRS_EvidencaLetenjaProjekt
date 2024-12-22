@@ -1,6 +1,16 @@
 name: SonarQube Scan
 
 on:
+  workflow_call: 
+    inputs:
+      github_token:
+        required: true
+        type: string
+      sonar_token:
+        required: true
+        type: string
+
+on:
   push:
     branches:
       - main
