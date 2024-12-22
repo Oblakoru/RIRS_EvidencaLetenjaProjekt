@@ -80,7 +80,7 @@ jobs:
           name: test-rezultati-backend
           path: EvidencaLetenjaBackend/test-results.html
 
-   sonarqube:
+  sonarqube:
     name: SonarQube Scan
     needs: test-backend
     uses: ./.github/workflows/sonarqube-scan.yml  # Calling the reusable SonarQube scan workflow

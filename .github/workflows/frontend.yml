@@ -85,7 +85,7 @@ jobs:
           path: frontend/evidencaLetenja/coverage/
           if-no-files-found: error
 
-   sonarqube:
+  sonarqube:
     name: SonarQube Scan
     needs: test-frontend
     uses: ./.github/workflows/sonarqube-scan.yml  # Calling the reusable SonarQube scan workflow
