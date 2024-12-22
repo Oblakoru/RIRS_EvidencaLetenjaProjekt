@@ -79,9 +79,11 @@ jobs:
           name: test-rezultati-backend
           path: EvidencaLetenjaBackend/test-results.html
 
-  dockerize-and-push:
-    needs: test-backend  # Izvede se po uspešnem testiranju
+  dockerize-and-push-prod:
+    needs: test-backend
     runs-on: ubuntu-latest
+    environment: Production
+    if: github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout repository
@@ -95,12 +97,38 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/backend:latest ./EvidencaLetenjaBackend
-          docker tag ${{ secrets.DOCKER_USERNAME }}/backend:latest ${{ secrets.DOCKER_USERNAME }}/backend:${{ github.sha }}
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/backend:prod ./EvidencaLetenjaBackend
+          docker tag ${{ secrets.DOCKER_USERNAME }}/backend:prod ${{ secrets.DOCKER_USERNAME }}/backend:${{ github.sha }}
 
       - name: Push Docker image to Docker Hub
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/backend:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/backend:prod
+          docker push ${{ secrets.DOCKER_USERNAME }}/backend:${{ github.sha }}
+
+  dockerize-and-push-dev:
+    needs: test-backend
+    runs-on: ubuntu-latest
+    environment: Development
+    if: github.ref == 'refs/heads/develop'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/backend:dev ./EvidencaLetenjaBackend
+          docker tag ${{ secrets.DOCKER_USERNAME }}/backend:dev ${{ secrets.DOCKER_USERNAME }}/backend:${{ github.sha }}
+
+      - name: Push Docker image to Docker Hub
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/backend:dev
           docker push ${{ secrets.DOCKER_USERNAME }}/backend:${{ github.sha }}
 
   deploy-frontend:
@@ -108,7 +136,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy
-        if: github.ref == 'refs/heads/develop'
+        if: github.ref == 'refs/heads/main'
         env:
           deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL_BACKEND}}
         run: |
