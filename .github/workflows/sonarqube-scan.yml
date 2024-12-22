@@ -10,16 +10,6 @@ on:
         required: true
         type: string
 
-on:
-  push:
-    branches:
-      - main
-      - develop
-  pull_request:
-    branches:
-      - main
-      - develop
-
 jobs:
   sonarqube:
     name: SonarQube Scan
