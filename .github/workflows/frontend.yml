@@ -85,10 +85,13 @@ jobs:
           path: frontend/evidencaLetenja/coverage/
           if-no-files-found: error
 
-  sonarqube:
+   sonarqube:
     name: SonarQube Scan
     needs: test-frontend
-    uses: ./.github/workflows/sonarqube-scan.yml
+    uses: ./.github/workflows/sonarqube-scan.yml  # Calling the reusable SonarQube scan workflow
+    with:
+      github_token: ${{ secrets.GITHUB_TOKEN }}  # Passing the required GitHub token
+      sonar_token: ${{ secrets.SONAR_TOKEN }}    # Passing the SonarQube token from secrets
 
   dockerize-and-push-prod:
     needs: [test-frontend, sonarqube]
