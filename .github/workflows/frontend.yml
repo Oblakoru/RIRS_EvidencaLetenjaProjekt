@@ -86,12 +86,18 @@ jobs:
           if-no-files-found: error
 
   sonarqube:
-    name: SonarQube Scan
+    name: SonarQube
     needs: test-frontend
-    uses: ./.github/workflows/sonarqube-scan.yml  # Calling the reusable SonarQube scan workflow
-    with:
-      github_token: ${{ secrets.GITHUB_TOKEN }}  # Passing the required GitHub token
-      sonar_token: ${{ secrets.SONAR_TOKEN }}    # Passing the SonarQube token from secrets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   dockerize-and-push-prod:
     needs: [test-frontend, sonarqube]
