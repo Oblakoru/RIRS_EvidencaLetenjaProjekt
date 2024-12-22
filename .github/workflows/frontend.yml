@@ -85,8 +85,13 @@ jobs:
           path: frontend/evidencaLetenja/coverage/
           if-no-files-found: error
 
-  dockerize-and-push-prod:
+  sonarqube:
+    name: SonarQube Scan
     needs: test-frontend
+    uses: ./.github/workflows/sonarqube-scan.yml
+
+  dockerize-and-push-prod:
+    needs: [test-frontend, sonarqube]
     runs-on: ubuntu-latest
     environment: Production
     if: github.ref == 'refs/heads/main'
