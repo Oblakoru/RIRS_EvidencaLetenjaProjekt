@@ -80,8 +80,22 @@ jobs:
           name: test-rezultati-backend
           path: EvidencaLetenjaBackend/test-results.html
 
+  sonarqube:
+    name: SonarQube
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      
   dockerize-and-push-prod:
-    needs: test-backend
+    needs: [test-backend, sonarqube]
     runs-on: ubuntu-latest
     environment: Production
     if: github.ref == 'refs/heads/main'
