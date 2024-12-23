@@ -10,10 +10,10 @@ from routes import letalo, pilot, polet
 app = FastAPI()
 
 allowed_origins = [
-    "https://rirs-evidencaletenjaprojekt-3.onrender.com",  # Deployed frontend
-    "http://localhost",  # Localhost without port
-    "http://localhost:5173",  # React dev server or similar
-    "http://127.0.0.1",  # Localhost with IP
+    "https://rirs-evidencaletenjaprojekt-3.onrender.com",  
+    "http://localhost",  
+    "http://localhost:3000",  
+    "http://127.0.0.1",  
 ]
 
 app.add_middleware(
