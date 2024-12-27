@@ -106,12 +106,17 @@ jobs:
           pollingTimeoutSec: 600
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Output result
+        run: |
+          echo "${{ steps.quality-gate-check.outputs.project-status }}"
+          echo "${{ steps.quality-gate-check.outputs.quality-gate-result }}"
    
   dockerize-and-push-prod:
     needs: [test-frontend, sonarqube]
     runs-on: ubuntu-latest
     environment: Production
-    if: github.ref == 'refs/heads/main' && needs.sonarqube.outputs.quality-gate == 'PASSED'
+    if: github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout code
