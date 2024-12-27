@@ -99,11 +99,19 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
+      - name: SonarQube Quality Gate Check
+        id: sonarqube-quality-gate
+        uses: sonarsource/sonarqube-quality-gate-action@v1
+        with:
+          pollingTimeoutSec: 600
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+   
   dockerize-and-push-prod:
     needs: [test-frontend, sonarqube]
     runs-on: ubuntu-latest
     environment: Production
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && needs.sonarqube.outputs.quality-gate == 'PASSED'
 
     steps:
       - name: Checkout code
