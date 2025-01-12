@@ -27,3 +27,5 @@ Main Branch (main): Primarna veja za produkcijo, ki vsebuje vedno zadnjo stabiln
 ![Predolgo izvajanje cevovoda](images/PredolgoTrajanje.png "Predolgo izvajanje cevovoda")
 
 ![Napakav v cevovodu](images/NapakaVJobu.png "Napakav v cevovodu")
+
+![Status](images/Status.png "Status")
