@@ -24,6 +24,6 @@ Main Branch (main): Primarna veja za produkcijo, ki vsebuje vedno zadnjo stabiln
 ![Osnovna nadzorna plošča](images/NadzornaPlosca.png "Osnovna nadzorna plošča")
 
 ### Prikaz dveh alarmov
-![Predolgo izvajanje cevovoda](images/PredolgoTrajanje.png.png "Predolgo izvajanje cevovoda")
+![Predolgo izvajanje cevovoda](images/PredolgoTrajanje.png "Predolgo izvajanje cevovoda")
 
-![Napakav v cevovodu](images/NapakaVJobu.png.png "Napakav v cevovodu")
+![Napakav v cevovodu](images/NapakaVJobu.png "Napakav v cevovodu")
